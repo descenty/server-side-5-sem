@@ -5,7 +5,7 @@ services:
     ports:
       - 8080:80
     volumes:
-      - ./index.php:/var/www/html/index.php
+      - ./src:/var/www/html
     depends_on:
       - db
   db:
