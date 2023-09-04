@@ -8,15 +8,18 @@ services:
     volumes:
       - ./index.php:/var/www/html/index.php
     depends_on:
-      - mysql
-  mysql:
+      - db
+  db:
     image: mysql:latest
     restart: always
     environment:
       MYSQL_DATABASE: appDB
       MYSQL_USER: user
       MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: qweasdzxc      
     ports:
       - 3306:3306
     volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./mysql:/var/lib/mysql
+
