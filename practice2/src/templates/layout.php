@@ -1,16 +1,17 @@
 <html lang='ru'>
 
 <head>
-    <title>$title</title>
+    <title><?= $title; ?></title>
     <link rel='stylesheet' href='style.css' type='text/css' />
 </head>
 
 <body>
     <?php
     include 'component/navigation.php';
-    echo createNavigation();
+    echo navigation();
     ?>
-    $content
+    <h1><?= $title; ?></h1>
+    <?= $content; ?>
 </body>
 
 </html>
