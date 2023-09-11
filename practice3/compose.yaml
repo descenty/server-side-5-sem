@@ -1,0 +1,33 @@
+services:
+  apache:
+    build: .
+    restart: always
+    ports:
+      - 8080:80
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - db
+  nginx:
+    image: nginx:latest
+    restart: always
+    ports:
+      - 8081:80
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./src:/var/www/html
+    depends_on:
+      - apache
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: appDB
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: qweasdzxc      
+    ports:
+      - 3306
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./mysql:/var/lib/mysql
