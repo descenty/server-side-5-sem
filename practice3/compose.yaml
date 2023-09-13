@@ -8,16 +8,6 @@ services:
       - ./src:/var/www/html
     depends_on:
       - db
-  nginx:
-    image: nginx:latest
-    restart: always
-    ports:
-      - 8081:80
-    volumes:
-      - ./nginx:/etc/nginx/conf.d
-      - ./src:/var/www/html
-    depends_on:
-      - apache
   db:
     image: mysql:latest
     restart: always

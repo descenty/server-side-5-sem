@@ -1,5 +1,5 @@
 <?php
-include 'service/goods_service.php';
+include 'repository/goodsRepository.php';
 include 'component/goodsTable.php';
 $title = 'Найти товар';
 $content = '<form action="readOne.php" method="post">

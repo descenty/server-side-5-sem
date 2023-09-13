@@ -1,5 +1,5 @@
 <?php
-include 'service/goods_service.php';
+include 'repository/goodsRepository.php';
 include 'component/goodsTable.php';
 $title = 'Удалить товар';
 $content = '<form action="delete.php" method="post">
