@@ -28,12 +28,12 @@ CREATE TABLE IF NOT EXISTS ordered_goods (
   good_id INT(11) NOT NULL,
   quantity INT(11) NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (order_id) REFERENCES order(id) ON DELETE CASCADE,
-  FOREIGN KEY (good_id) REFERENCES good(id) ON DELETE CASCADE
+  CONSTRAINT orders_id_fk FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+  CONSTRAINT goods_id_fk FOREIGN KEY (good_id) REFERENCES goods(id) ON DELETE CASCADE
 );
 
 INSERT INTO orders (address, customer_name, status) VALUES
-("Moscow, ulitsa Lenina, 1", "Petrov Ivan", "new")
+("Moscow, ulitsa Lenina, 1", "Petrov Ivan", "new"),
 ("Moscow, prospekt Mira, 1", "Ivanov Sergey", "new"),
 ("Kazan, ulitsa Pushkina, 2", "Petrov Petr", "paid"),
 ("Saint-Petersburg, Nevskiy prospekt, 3", "Sidorov Sidor", "sent"),
