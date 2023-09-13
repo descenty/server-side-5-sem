@@ -5,16 +5,16 @@ FLUSH PRIVILEGES;
 
 USE appDB;
 
-CREATE TABLE IF NOT EXISTS order (
+CREATE TABLE IF NOT EXISTS orders (
   id INT(11) NOT NULL AUTO_INCREMENT,
   address VARCHAR(100) NOT NULL,
   customer_name VARCHAR(63) NOT NULL,
   status VARCHAR(15) NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
-)
+);
 
-CREATE TABLE IF NOT EXISTS good (
+CREATE TABLE IF NOT EXISTS goods (
   id INT(11) NOT NULL AUTO_INCREMENT,
   title VARCHAR(63) NOT NULL,
   description TEXT NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS good (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS ordered_good (
+CREATE TABLE IF NOT EXISTS ordered_goods (
   id INT(11) NOT NULL AUTO_INCREMENT,
   order_id INT(11) NOT NULL,
   good_id INT(11) NOT NULL,
@@ -30,9 +30,9 @@ CREATE TABLE IF NOT EXISTS ordered_good (
   PRIMARY KEY (id),
   FOREIGN KEY (order_id) REFERENCES order(id),
   FOREIGN KEY (good_id) REFERENCES good(id)
-)
+);
 
-INSERT INTO order (address, customer_name, status) VALUES
+INSERT INTO orders (address, customer_name, status) VALUES
 ("Moscow, ulitsa Lenina, 1", "Petrov Ivan", "new")
 ("Moscow, prospekt Mira, 1", "Ivanov Sergey", "new"),
 ("Kazan, ulitsa Pushkina, 2", "Petrov Petr", "paid"),
@@ -45,7 +45,7 @@ INSERT INTO order (address, customer_name, status) VALUES
 ("Kazan, ulitsa Molotova, 9", "Stepanov Stepan", "delivered"),
 ("Chelyabinsk, ulitsa Kirova, 10", "Fedorov Fedor", "delivered");
 
-INSERT INTO good (title, description, price) VALUES
+INSERT INTO goods (title, description, price) VALUES
 ('Jeans', 'Blue jeans', 100.00),
 ('T-shirt', 'White t-shirt', 50.00),
 ('Sweater', 'Red sweater', 150.00),
@@ -57,7 +57,7 @@ INSERT INTO good (title, description, price) VALUES
 ('Socks', 'White socks', 50.00),
 ('Underwear', 'Black underwear', 50.00);
 
-INSERT INTO ordered_good (order_id, good_id, quantity) VALUES
+INSERT INTO ordered_goods (order_id, good_id, quantity) VALUES
 (1, 1, 1),
 (1, 2, 2),
 (1, 3, 3),
