@@ -1,0 +1,216 @@
+{
+	"info": {
+		"_postman_id": "2d3428b7-e4e6-42e7-a0fa-84b0f2403a07",
+		"name": "server-side-5-sem",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19054329"
+	},
+	"item": [
+		{
+			"name": "practice3",
+			"item": [
+				{
+					"name": "Заказ",
+					"item": [
+						{
+							"name": "Просмотр списка",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Success Answer\", pm.response.to.have.status(200));\r",
+											"\r",
+											"const responseJSON = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Response Body is an Array\", pm.expect(responseJSON).to.be.an('array'));\r",
+											"\r",
+											"pm.environment.set(\"ORDER_ID\", responseJSON[0]._id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/orders",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Просмотр одного",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Success Answer\", pm.response.to.have.status(200));\r",
+											"\r",
+											"const responseJSON = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Response Body is an Array\", pm.expect(responseJSON).to.be.an('object'));\r",
+											"\r",
+											"pm.environment.set(\"ORDER_ID\", responseJSON[0]._id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/orders/{{ORDER_ID}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"orders",
+										"{{ORDER_ID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Просмотр несуществующего",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "Создание",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Success Answer\", pm.response.to.have.status(201));\r",
+											"\r",
+											"const responseJSON = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Response Body is an Array\", pm.expect(responseJSON).to.be.an('object'));\r",
+											"\r",
+											"pm.environment.set(\"ORDER_ID\", responseJSON.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"address\": \"Moscow, prospekt Vernadskogo 78\",\r\n    \"customer_name\": \"Alexander\",\r\n    \"goods\": [\r\n        {\r\n            \"id\": 1,\r\n            \"quantity\": 2\r\n        },\r\n        {\r\n            \"id\": 2,\r\n            \"quantity\": 1\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/orders",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Обновление",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/orders/{{ORDER_ID}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"orders",
+										"{{ORDER_ID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Обновление несуществующего",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/orders/123456789",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"orders",
+										"123456789"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Удаление",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/orders/{{ORDER_ID}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"orders",
+										"{{ORDER_ID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Удаление несуществующего",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/orders/123456789",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"orders",
+										"123456789"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Товар",
+					"item": []
+				}
+			]
+		}
+	]
+}
