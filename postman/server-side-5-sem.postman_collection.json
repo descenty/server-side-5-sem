@@ -25,7 +25,7 @@
 											"\r",
 											"pm.test(\"Response Body is an Array\", pm.expect(responseJSON).to.be.an('array'));\r",
 											"\r",
-											"pm.environment.set(\"ORDER_ID\", responseJSON[0]._id);"
+											"pm.environment.set(\"ORDER_ID\", responseJSON[0].id);"
 										],
 										"type": "text/javascript"
 									}
@@ -57,9 +57,7 @@
 											"\r",
 											"const responseJSON = pm.response.json();\r",
 											"\r",
-											"pm.test(\"Response Body is an Array\", pm.expect(responseJSON).to.be.an('object'));\r",
-											"\r",
-											"pm.environment.set(\"ORDER_ID\", responseJSON[0]._id);"
+											"pm.test(\"Response Body is an Array\", pm.expect(responseJSON).to.be.an('object'));"
 										],
 										"type": "text/javascript"
 									}
@@ -83,9 +81,30 @@
 						},
 						{
 							"name": "Просмотр несуществующего",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"404 Response Status\", pm.response.to.have.status(404));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
-								"header": []
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/orders/123456789",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"orders",
+										"123456789"
+									]
+								}
 							},
 							"response": []
 						},
