@@ -28,8 +28,8 @@ CREATE TABLE IF NOT EXISTS ordered_goods (
   good_id INT(11) NOT NULL,
   quantity INT(11) NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (order_id) REFERENCES order(id),
-  FOREIGN KEY (good_id) REFERENCES good(id)
+  FOREIGN KEY (order_id) REFERENCES order(id) ON DELETE CASCADE,
+  FOREIGN KEY (good_id) REFERENCES good(id) ON DELETE CASCADE
 );
 
 INSERT INTO orders (address, customer_name, status) VALUES
