@@ -11,7 +11,7 @@ class OrderRepository
     $result = $mysqli->query(
       'SELECT orders.id, orders.address, orders.customer_name, orders.status, orders.created_at,
     JSON_ARRAYAGG(JSON_OBJECT(
-      "id", ordered_goods.id,
+      "id", goods.id,
       "title", goods.title,
       "description", goods.description,
       "price", goods.price,
@@ -36,7 +36,7 @@ class OrderRepository
     $result = $mysqli->query(
       "SELECT orders.id, orders.address, orders.customer_name, orders.status, orders.created_at,
     JSON_ARRAYAGG(JSON_OBJECT(
-      'id', ordered_goods.id,
+      'id', goods.id,
       'title', goods.title,
       'description', goods.description,
       'price', goods.price,
@@ -67,41 +67,56 @@ class OrderRepository
       $quantity = $good['quantity'];
       $mysqli->query("INSERT INTO ordered_goods (order_id, good_id, quantity) VALUES ('$order_id', '$good_id', '$quantity')");
     }
+
     return $order_id;
   }
 
-  public static function update($id, $address, $customer_name, $status, $goods): bool
+  public static function update(int $id, OrderCreate $order): ?int
   {
     global $mysqli;
-    $mysqli->query("UPDATE orders SET address='$address', customer_name='$customer_name', status='$status' WHERE id='$id'");
+
+    $mysqli->query("INSERT INTO orders (id, address, customer_name, status) VALUES ('$id', '$order->address', '$order->customer_name', '$order->status') ON DUPLICATE KEY UPDATE address='$order->address', customer_name='$order->customer_name', status='$order->status'");
     $mysqli->query("DELETE FROM ordered_goods WHERE order_id='$id'");
-    foreach ($goods as $good) {
+    foreach ($order->goods as $good) {
       $good_id = $good['id'];
       $quantity = $good['quantity'];
       $mysqli->query("INSERT INTO ordered_goods (order_id, good_id, quantity) VALUES ('$id', '$good_id', '$quantity')");
     }
-    return $mysqli->affected_rows > 0;
+
+    return $id;
   }
 
-  public static function partialUpdate($id, $address, $customer_name, $status): bool
+  public static function partialUpdate(int $id, OrderCreate $order): ?int
   {
     global $mysqli;
-    if ($address) {
-      $mysqli->query("UPDATE orders SET address='$address' WHERE id='$id'");
+
+    if (isset($order->address))
+      $mysqli->query("UPDATE orders SET address='$order->address' WHERE id='$id'");
+
+    if (isset($order->customer_name))
+      $mysqli->query("UPDATE orders SET customer_name='$order->customer_name' WHERE id='$id'");
+
+    if (isset($order->status))
+      $mysqli->query("UPDATE orders SET status='$order->status' WHERE id='$id'");
+
+    if (isset($order->goods)) {
+      $mysqli->query("DELETE FROM ordered_goods WHERE order_id='$id'");
+      foreach ($order->goods as $good) {
+        $good_id = $good['id'];
+        $quantity = $good['quantity'];
+        $mysqli->query("INSERT INTO ordered_goods (order_id, good_id, quantity) VALUES ('$id', '$good_id', '$quantity')");
+      }
     }
-    if ($customer_name) {
-      $mysqli->query("UPDATE orders SET customer_name='$customer_name' WHERE id='$id'");
-    }
-    if ($status) {
-      $mysqli->query("UPDATE orders SET status='$status' WHERE id='$id'");
-    }
-    return $mysqli->affected_rows > 0;
+    
+    return $id;
   }
 
   public static function delete($id): bool
   {
     global $mysqli;
+
     $mysqli->query("DELETE FROM orders WHERE id='$id'");
+
     return $mysqli->affected_rows > 0;
   }
 }

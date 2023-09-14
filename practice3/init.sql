@@ -1,7 +1,4 @@
 CREATE DATABASE IF NOT EXISTS appDB;
-CREATE USER IF NOT EXISTS 'user'@'%' IDENTIFIED BY 'password';
-GRANT SELECT,UPDATE,INSERT ON appDB.* TO 'user'@'%';
-FLUSH PRIVILEGES;
 
 USE appDB;
 
@@ -24,12 +21,12 @@ CREATE TABLE IF NOT EXISTS goods (
 
 CREATE TABLE IF NOT EXISTS ordered_goods (
   id INT(11) NOT NULL AUTO_INCREMENT,
-  order_id INT(11) NOT NULL,
-  good_id INT(11) NOT NULL,
+  order_id INT(11),
+  good_id INT(11),
   quantity INT(11) NOT NULL,
   PRIMARY KEY (id),
-  CONSTRAINT orders_id_fk FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
-  CONSTRAINT goods_id_fk FOREIGN KEY (good_id) REFERENCES goods(id) ON DELETE CASCADE
+  CONSTRAINT orders_id_fk FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE SET NULL,
+  CONSTRAINT goods_id_fk FOREIGN KEY (good_id) REFERENCES goods(id) ON DELETE SET NULL
 );
 
 INSERT INTO orders (address, customer_name, status) VALUES
