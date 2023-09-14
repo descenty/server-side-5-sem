@@ -153,9 +153,77 @@
 						},
 						{
 							"name": "Обновление",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Success Answer\", pm.response.to.have.status(200));\r",
+											"\r",
+											"const responseJSON = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Response Body is an Array\", pm.expect(responseJSON).to.be.an('object'));\r",
+											"pm.test(\"Response Object has required ID\", pm.expect(responseJSON.id).equal(1234));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"address\": \"Tula, prospekt Mira, 1\",\r\n    \"customer_name\": \"Alexey\",\r\n    \"status\": \"paid\",\r\n    \"goods\": [\r\n        {\r\n            \"id\": 3,\r\n            \"quantity\": 1\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/orders/1234",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"orders",
+										"1234"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Частичное обновление",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Success Answer\", pm.response.to.have.status(200));\r",
+											"\r",
+											"const responseJSON = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Response Body is an Array\", pm.expect(responseJSON).to.be.an('object'));\r",
+											"pm.test(\"Response Object has a required ID\", pm.expect(responseJSON.id).equal(pm.environment.get(\"ORDER_ID\")))"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "PATCH",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"address\": \"Tula, prospekt Mira, 1\",\r\n    \"customer_name\": \"Alexey\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
 									"raw": "{{BASE_URL}}/orders/{{ORDER_ID}}",
 									"host": [
@@ -170,10 +238,30 @@
 							"response": []
 						},
 						{
-							"name": "Обновление несуществующего",
+							"name": "Частичное обновление несуществующего",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"404 Response Status\", pm.response.to.have.status(404));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "PATCH",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"address\": \"Tula, prospekt Mira, 1\",\r\n    \"customer_name\": \"Alexey\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
 									"raw": "{{BASE_URL}}/orders/123456789",
 									"host": [
@@ -189,6 +277,17 @@
 						},
 						{
 							"name": "Удаление",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"No Content Status\", pm.response.to.have.status(204));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "DELETE",
 								"header": [],
@@ -207,6 +306,17 @@
 						},
 						{
 							"name": "Удаление несуществующего",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"404 Response Status\", pm.response.to.have.status(404));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "DELETE",
 								"header": [],
@@ -227,7 +337,330 @@
 				},
 				{
 					"name": "Товар",
-					"item": []
+					"item": [
+						{
+							"name": "Просмотр списка",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Success Answer\", pm.response.to.have.status(200));\r",
+											"\r",
+											"const responseJSON = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Response Body is an Array\", pm.expect(responseJSON).to.be.an('array'));\r",
+											"\r",
+											"pm.environment.set(\"GOOD_ID\", responseJSON[0].id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/goods",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"goods"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Просмотр одного",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Success Answer\", pm.response.to.have.status(200));\r",
+											"\r",
+											"const responseJSON = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Response Body is an Array\", pm.expect(responseJSON).to.be.an('object'));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/goods/{{GOOD_ID}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"goods",
+										"{{GOOD_ID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Просмотр несуществующего",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"404 Response Status\", pm.response.to.have.status(404));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/goods/123456789",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"goods",
+										"123456789"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Создание",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Success Answer\", pm.response.to.have.status(201));\r",
+											"\r",
+											"const responseJSON = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Response Body is an Array\", pm.expect(responseJSON).to.be.an('object'));\r",
+											"\r",
+											"pm.environment.set(\"GOOD_ID\", responseJSON.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"My new good\",\r\n    \"description\": \"New good description\",\r\n    \"price\": 100.50\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/goods/{{GOOD_ID}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"goods",
+										"{{GOOD_ID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Обновление",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Success Answer\", pm.response.to.have.status(200));\r",
+											"\r",
+											"const responseJSON = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Response Body is an Array\", pm.expect(responseJSON).to.be.an('object'));\r",
+											"pm.test(\"Response Object has required ID\", pm.expect(responseJSON.id).equal(1234));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Updated good\",\r\n    \"description\": \"Updated good description\",\r\n    \"price\": 345\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/goods/1234",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"goods",
+										"1234"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Частичное обновление",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Success Answer\", pm.response.to.have.status(200));\r",
+											"\r",
+											"const responseJSON = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Response Body is an Array\", pm.expect(responseJSON).to.be.an('object'));\r",
+											"pm.test(\"Response Object has a required ID\", pm.expect(responseJSON.id).equal(pm.environment.get(\"GOOD_ID\")))"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Updated good\",\r\n    \"description\": \"Updated good description\",\r\n    \"price\": 345\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/goods/{{GOOD_ID}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"goods",
+										"{{GOOD_ID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Частичное обновление несуществующего",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"404 Response Status\", pm.response.to.have.status(404));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Updated good\",\r\n    \"description\": \"Updated good description\",\r\n    \"price\": 345\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/goods/123456789",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"goods",
+										"123456789"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Удаление",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"No Content Status\", pm.response.to.have.status(204));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/goods/{{GOOD_ID}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"goods",
+										"{{GOOD_ID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Удаление несуществующего",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"404 Response Status\", pm.response.to.have.status(404));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/goods/123456789",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"goods",
+										"123456789"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}
