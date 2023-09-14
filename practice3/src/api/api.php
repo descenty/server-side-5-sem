@@ -1,22 +1,14 @@
 <?php
-abstract class Api
+abstract class API
 {
-    public $apiName = ''; //people
-
-    protected $method = ''; //GET|POST|PUT|DELETE
-
+    public $apiName = '';
+    protected $method = '';
     public $requestUri = [];
     public $requestParams = [];
     public $requestJSON = [];
-
-    protected $action = ''; //Название метода для выполнения
-
-
+    protected $action = '';
     public function __construct()
     {
-        header("Access-Control-Allow-Orgin: *");
-        header("Access-Control-Allow-Methods: *");
-        header("Content-Type: application/json");
 
         //Массив GET параметров разделенных /
         $this->requestUri = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
@@ -25,32 +17,30 @@ abstract class Api
 
         //Определение метода запроса
         $this->method = $_SERVER['REQUEST_METHOD'];
-        if ($this->method == 'POST' && array_key_exists('HTTP_X_HTTP_METHOD', $_SERVER)) {
-            if ($_SERVER['HTTP_X_HTTP_METHOD'] == 'DELETE') {
+        if ($this->method == 'POST' && array_key_exists('HTTP_X_HTTP_METHOD', $_SERVER))
+            if ($_SERVER['HTTP_X_HTTP_METHOD'] == 'DELETE')
                 $this->method = 'DELETE';
-            } else if ($_SERVER['HTTP_X_HTTP_METHOD'] == 'PUT') {
+            else if ($_SERVER['HTTP_X_HTTP_METHOD'] == 'PUT')
                 $this->method = 'PUT';
-            } else {
+            else if ($_SERVER['HTTP_X_HTTP_METHOD'] == 'PATCH')
+                $this->method = 'PATCH';
+            else
                 throw new Exception("Unexpected Header");
-            }
-        }
     }
 
     public function run()
     {
-        //Первые 2 элемента массива URI должны быть "api" и название таблицы
-        if (array_shift($this->requestUri) !== 'api' || array_shift($this->requestUri) !== $this->apiName) {
-            throw new RuntimeException('API Not Found', 404);
-        }
-        //Определение действия для обработки
+        if (array_shift($this->requestUri) !== 'api' || array_shift($this->requestUri) !== $this->apiName)
+            // throw new RuntimeException('API Not Found', 404);
+            return;
+
         $this->action = $this->getAction();
 
-        //Если метод(действие) определен в дочернем классе API
-        if (method_exists($this, $this->action)) {
+        if (method_exists($this, $this->action))
             return $this->{$this->action}();
-        } else {
+        else
             throw new RuntimeException('Invalid Method', 405);
-        }
+
     }
 
     protected function response($data, $status = 500)
@@ -64,6 +54,8 @@ abstract class Api
         $status = array(
             200 => 'OK',
             201 => 'Created',
+            204 => 'No Content',
+            400 => 'Bad Request',
             404 => 'Not Found',
             405 => 'Method Not Allowed',
             500 => 'Internal Server Error',
@@ -76,21 +68,18 @@ abstract class Api
         $method = $this->method;
         switch ($method) {
             case 'GET':
-                if ($this->requestUri) {
+                if ($this->requestUri)
                     return 'viewAction';
-                } else {
+                else
                     return 'indexAction';
-                }
-                break;
             case 'POST':
                 return 'createAction';
-                break;
             case 'PUT':
                 return 'updateAction';
-                break;
+            case 'PATCH':
+                return 'partialUpdateAction';
             case 'DELETE':
                 return 'deleteAction';
-                break;
             default:
                 return null;
         }
@@ -100,5 +89,6 @@ abstract class Api
     abstract protected function viewAction();
     abstract protected function createAction();
     abstract protected function updateAction();
+    abstract protected function partialUpdateAction();
     abstract protected function deleteAction();
 }
