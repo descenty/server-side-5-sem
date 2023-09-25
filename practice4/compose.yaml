@@ -2,7 +2,7 @@ services:
   apache:
     build: .
     restart: always
-    ports:
+    expose:
       - 80
     environment:
       MYSQL_HOST: db
@@ -20,7 +20,7 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    ports:
+    expose:
       - 3306
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
