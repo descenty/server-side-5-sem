@@ -1,69 +1,15 @@
 services:
   postgres:
-    build: containers/postgres
-    container_name: work-in-postgres
+    image: postgres:latest
+    container_name: practice5-postgres
     restart: always
     ports:
       - 5432:5432
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: workin
+      POSTGRES_DB: practice5
     volumes:
       - postgres-data:/var/lib/postgresql/data
-  keycloak:
-    build: containers/keycloak
-    container_name: work-in-keycloak
-    restart: always
-    command: start-dev --db postgres
-    ports:
-      - 8443:8443
-    environment:
-      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
-      KC_DB_USERNAME: ${POSTGRES_USER}
-      KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
-      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
-      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-      KC_HTTPS_CERTIFICATE_FILE: /opt/keycloak/conf/certs/tls.crt
-      KC_HTTPS_CERTIFICATE_KEY_FILE: /opt/keycloak/conf/certs/tls.key
-    healthcheck:
-      test:
-        ["CMD", "curl", "--head", "fsS", "https://keycloak:8443/health/ready"]
-      interval: 5s
-      timeout: 2s
-      retries: 15
-    depends_on:
-      - postgres
-  redis:
-    image: redis:7
-    container_name: work-in-redis
-    command: >
-      --requirepass ${REDIS_PASSWORD}
-    expose:
-      - 6379
-    environment:
-      - TZ=Europe/Moscow
-    volumes:
-      - redis-data:/data/_data
-  app:
-    image: descenty/work_in_spring
-    pull_policy: always
-    container_name: work-in-app
-    restart: always
-    ports:
-      - 8001:8001
-    environment:
-      POSTGRES_HOST: postgres
-      POSTGRES_PORT: 5432
-      POSTGRES_DB: workin
-      KC_PORT: 8443
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-    env_file:
-      - .env
-    depends_on:
-      - postgres
-      - keycloak
 volumes:
   postgres-data:
-  redis-data:
