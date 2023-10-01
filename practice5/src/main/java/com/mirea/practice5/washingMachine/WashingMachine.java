@@ -4,13 +4,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 @Entity
-public class WashingMachine {
-    @Id
-    private Long id;
-    private String title;
-    private String type;
-    private Integer price;
-    private Integer tankVolume;
-    private String manufacturer;
-    private Integer sellerId;
+public record WashingMachine(
+        @Id Long id,
+        String title,
+        String type,
+        Integer price,
+        Integer tankVolume,
+        String manufacturer,
+        Integer sellerId) {
 }

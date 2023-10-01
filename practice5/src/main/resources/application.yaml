@@ -11,6 +11,10 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+flyway:
+  url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/practice5
+  user: ${POSTGRES_USER}
+  password: ${POSTGRES_PASSWORD}
 server:
   servlet:
     context-path: /api/v1

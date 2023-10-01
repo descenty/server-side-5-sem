@@ -4,11 +4,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 @Entity
-public class Client {
-    @Id
-    private Long id;
-    private String name;
-    private String email;
-    private String login;
-    private String password;
+public record Client(
+        @Id Long id,
+        String name,
+        String email,
+        String login,
+        String password) {
 }
