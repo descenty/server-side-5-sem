@@ -4,7 +4,7 @@ CREATE TABLE book (
     author VARCHAR(255),
     type VARCHAR(255),
     price INTEGER,
-    seller_id INTEGER
+    seller_id INTEGER,
 );
 CREATE TABLE client (
     id BIGSERIAL PRIMARY KEY,

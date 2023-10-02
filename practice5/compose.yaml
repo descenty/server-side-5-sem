@@ -17,5 +17,16 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres-data:/var/lib/postgresql/data
+  app:
+    build: .
+    container_name: practice5-app
+    restart: always
+    ports:
+      - 8080:8080
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: practice5
+    depends_on:
+      - postgres
 volumes:
   postgres-data:
