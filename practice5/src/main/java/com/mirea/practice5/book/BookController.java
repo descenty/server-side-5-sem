@@ -20,7 +20,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/areas")
+@RequestMapping("/books")
 @RequiredArgsConstructor
 public class BookController {
     private final BookService bookService;

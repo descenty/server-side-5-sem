@@ -6,7 +6,7 @@ plugins {
 }
 
 flyway {
-    url = 'jdbc:postgresql://localhost:5432/practice5'
+    url = 'jdbc:postgresql://descenty.ru:5432/practice5'
     user = 'descenty'
     password = '09102003sK'
 }

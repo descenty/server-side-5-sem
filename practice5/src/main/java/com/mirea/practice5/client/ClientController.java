@@ -20,7 +20,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/areas")
+@RequestMapping("/clients")
 @RequiredArgsConstructor
 public class ClientController {
     private final ClientService clientService;

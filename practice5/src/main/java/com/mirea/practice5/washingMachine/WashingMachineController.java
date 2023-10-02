@@ -20,7 +20,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/areas")
+@RequestMapping("/washing-machines")
 @RequiredArgsConstructor
 public class WashingMachineController {
     private final WashingMachineService washingMachineService;
