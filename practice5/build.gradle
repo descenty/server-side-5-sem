@@ -5,6 +5,12 @@ plugins {
     id 'org.flywaydb.flyway' version '9.22.1'
 }
 
+flyway {
+    url = 'jdbc:postgresql://localhost:5432/practice5'
+    user = 'descenty'
+    password = '09102003sK'
+}
+
 group = 'com.mirea'
 version = '0.0.1-SNAPSHOT'
 

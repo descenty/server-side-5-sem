@@ -1,4 +1,4 @@
-package com.mirea.practice5.telephone;
+package com.mirea.practice5.washingMachine;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.mirea.practice5.telephone.schema.TelephoneCreate;
+import com.mirea.practice5.washingMachine.schema.WashingMachineCreate;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,37 +22,37 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/areas")
 @RequiredArgsConstructor
-public class TelephoneController {
-    private final TelephoneService telephoneService;
+public class WashingMachineController {
+    private final WashingMachineService washingMachineService;
 
     @GetMapping("")
-    public List<Telephone> getAll() {
-        return telephoneService.getAll();
+    public List<WashingMachine> getAll() {
+        return washingMachineService.getAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Telephone> getById(@PathVariable Long id) {
-        return telephoneService.getById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<WashingMachine> getById(@PathVariable Long id) {
+        return washingMachineService.getById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("")
-    public ResponseEntity<?> create(@Valid @RequestBody TelephoneCreate telephoneCreate) {
-        Optional<Long> telephoneId = telephoneService.create(telephoneCreate);
-        return telephoneId.isPresent()
+    public ResponseEntity<?> create(@Valid @RequestBody WashingMachineCreate washingMachineCreate) {
+        Optional<Long> washingMachineId = washingMachineService.create(washingMachineCreate);
+        return washingMachineId.isPresent()
                 ? ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                        .buildAndExpand(telephoneId.get()).toUri()).build()
+                        .buildAndExpand(washingMachineId.get()).toUri()).build()
                 : ResponseEntity.notFound().build();
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Telephone> partialUpdate(@PathVariable Long id,
-            @Valid @RequestBody TelephoneCreate telephoneCreate) {
-        return telephoneService.partialUpdate(id, telephoneCreate).map(ResponseEntity::ok)
+    public ResponseEntity<WashingMachine> partialUpdate(@PathVariable Long id,
+            @Valid @RequestBody WashingMachineCreate washingMachineCreate) {
+        return washingMachineService.partialUpdate(id, washingMachineCreate).map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        return telephoneService.delete(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+        return washingMachineService.delete(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }

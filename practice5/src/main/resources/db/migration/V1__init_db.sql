@@ -24,7 +24,7 @@ CREATE TABLE telephone (
     title           VARCHAR(255),
     type            VARCHAR(255),
     price           INTEGER,
-    batteryCapacity INTEGER,
+    battery_capacity INTEGER,
     manufacturer    VARCHAR(255),
     seller_id       INTEGER,
     CONSTRAINT pk_telephone PRIMARY KEY (id)
@@ -35,7 +35,7 @@ CREATE TABLE washing_machine (
     title           VARCHAR(255),
     type            VARCHAR(255),
     price           INTEGER,
-    tankVolume      INTEGER,
+    tank_volume      INTEGER,
     manufacturer    VARCHAR(255),
     seller_id       INTEGER,
     CONSTRAINT pk_washing_machine PRIMARY KEY (id)

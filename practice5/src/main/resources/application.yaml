@@ -15,6 +15,7 @@ flyway:
   url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/practice5
   user: ${POSTGRES_USER}
   password: ${POSTGRES_PASSWORD}
+  locations: classpath:db/migration
 server:
   servlet:
     context-path: /api/v1
