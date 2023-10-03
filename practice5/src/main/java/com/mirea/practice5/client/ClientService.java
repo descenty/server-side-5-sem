@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -20,22 +21,22 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
-    public Optional<Client> getById(Long id) {
+    public Optional<Client> getById(UUID id) {
         return clientRepository.findById(id);
     }
 
     @Transactional
-    public Optional<Long> create(ClientCreate ClientCreate) {
-        return Optional.of(clientMapper.toEntity(ClientCreate)).map(clientRepository::save).map(Client::id);
+    public Optional<UUID> create(ClientCreate ClientCreate) {
+        return Optional.of(clientMapper.toEntity(ClientCreate)).map(clientRepository::save).map(Client::getId);
     }
 
     @Transactional
-    public Optional<Client> partialUpdate(Long id, ClientCreate ClientCreate) {
+    public Optional<Client> partialUpdate(UUID id, ClientCreate ClientCreate) {
         return clientRepository.findById(id).map(Client -> clientMapper.update(Client, ClientCreate)).map(clientRepository::save);
     }
 
     @Transactional
-    public boolean delete(Long id) {
+    public boolean delete(UUID id) {
         return clientRepository.findById(id).map(Client -> {
             clientRepository.delete(Client);
             return true;

@@ -2,6 +2,7 @@ package com.mirea.practice5.washingMachine;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,13 +32,13 @@ public class WashingMachineController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<WashingMachine> getById(@PathVariable Long id) {
+    public ResponseEntity<WashingMachine> getById(@PathVariable UUID id) {
         return washingMachineService.getById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("")
     public ResponseEntity<?> create(@Valid @RequestBody WashingMachineCreate washingMachineCreate) {
-        Optional<Long> washingMachineId = washingMachineService.create(washingMachineCreate);
+        Optional<UUID> washingMachineId = washingMachineService.create(washingMachineCreate);
         return washingMachineId.isPresent()
                 ? ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                         .buildAndExpand(washingMachineId.get()).toUri()).build()
@@ -45,14 +46,15 @@ public class WashingMachineController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<WashingMachine> partialUpdate(@PathVariable Long id,
-            @Valid @RequestBody WashingMachineCreate washingMachineCreate) {
+    public ResponseEntity<WashingMachine> partialUpdate(@PathVariable UUID id,
+            @RequestBody WashingMachineCreate washingMachineCreate) {
         return washingMachineService.partialUpdate(id, washingMachineCreate).map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        return washingMachineService.delete(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
+        return washingMachineService.delete(id) ? ResponseEntity.noContent().build()
+                : ResponseEntity.notFound().build();
     }
 }

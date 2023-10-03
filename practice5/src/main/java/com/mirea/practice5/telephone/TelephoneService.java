@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -20,22 +21,22 @@ public class TelephoneService {
         return telephoneRepository.findAll();
     }
 
-    public Optional<Telephone> getById(Long id) {
+    public Optional<Telephone> getById(UUID id) {
         return telephoneRepository.findById(id);
     }
 
     @Transactional
-    public Optional<Long> create(TelephoneCreate TelephoneCreate) {
-        return Optional.of(telephoneMapper.toEntity(TelephoneCreate)).map(telephoneRepository::save).map(Telephone::id);
+    public Optional<UUID> create(TelephoneCreate TelephoneCreate) {
+        return Optional.of(telephoneMapper.toEntity(TelephoneCreate)).map(telephoneRepository::save).map(Telephone::getId);
     }
 
     @Transactional
-    public Optional<Telephone> partialUpdate(Long id, TelephoneCreate TelephoneCreate) {
+    public Optional<Telephone> partialUpdate(UUID id, TelephoneCreate TelephoneCreate) {
         return telephoneRepository.findById(id).map(Telephone -> telephoneMapper.update(Telephone, TelephoneCreate)).map(telephoneRepository::save);
     }
 
     @Transactional
-    public boolean delete(Long id) {
+    public boolean delete(UUID id) {
         return telephoneRepository.findById(id).map(Telephone -> {
             telephoneRepository.delete(Telephone);
             return true;

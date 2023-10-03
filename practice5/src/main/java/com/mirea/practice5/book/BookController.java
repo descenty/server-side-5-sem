@@ -2,6 +2,7 @@ package com.mirea.practice5.book;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,13 +32,13 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Book> getById(@PathVariable Long id) {
+    public ResponseEntity<Book> getById(@PathVariable UUID id) {
         return bookService.getById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("")
     public ResponseEntity<?> create(@Valid @RequestBody BookCreate bookCreate) {
-        Optional<Long> bookId = bookService.create(bookCreate);
+        Optional<UUID> bookId = bookService.create(bookCreate);
         return bookId.isPresent()
                 ? ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                         .buildAndExpand(bookId.get()).toUri()).build()
@@ -45,14 +46,14 @@ public class BookController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Book> partialUpdate(@PathVariable Long id, @Valid @RequestBody BookCreate bookCreate) {
+    public ResponseEntity<Book> partialUpdate(@PathVariable UUID id, @RequestBody BookCreate bookCreate) {
         return bookService.partialUpdate(id, bookCreate).map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
         return bookService.delete(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }

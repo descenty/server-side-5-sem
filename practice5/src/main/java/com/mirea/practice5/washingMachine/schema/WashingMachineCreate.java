@@ -1,10 +1,12 @@
 package com.mirea.practice5.washingMachine.schema;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Positive;
+
 public record WashingMachineCreate(
-        String title,
-        String type,
-        Integer price,
-        Integer tankVolume,
-        String manufacturer,
-        Integer sellerId) {
+        @NotEmpty String title,
+        @Positive Double price,
+        @Positive Integer tankVolume,
+        @NotEmpty String manufacturer,
+        @Positive Integer sellerId) {
 }

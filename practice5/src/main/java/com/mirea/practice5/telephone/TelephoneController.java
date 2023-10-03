@@ -2,6 +2,7 @@ package com.mirea.practice5.telephone;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,13 +32,13 @@ public class TelephoneController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Telephone> getById(@PathVariable Long id) {
+    public ResponseEntity<Telephone> getById(@PathVariable UUID id) {
         return telephoneService.getById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("")
     public ResponseEntity<?> create(@Valid @RequestBody TelephoneCreate telephoneCreate) {
-        Optional<Long> telephoneId = telephoneService.create(telephoneCreate);
+        Optional<UUID> telephoneId = telephoneService.create(telephoneCreate);
         return telephoneId.isPresent()
                 ? ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                         .buildAndExpand(telephoneId.get()).toUri()).build()
@@ -45,14 +46,14 @@ public class TelephoneController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Telephone> partialUpdate(@PathVariable Long id,
-            @Valid @RequestBody TelephoneCreate telephoneCreate) {
+    public ResponseEntity<Telephone> partialUpdate(@PathVariable UUID id,
+            @RequestBody TelephoneCreate telephoneCreate) {
         return telephoneService.partialUpdate(id, telephoneCreate).map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
         return telephoneService.delete(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }

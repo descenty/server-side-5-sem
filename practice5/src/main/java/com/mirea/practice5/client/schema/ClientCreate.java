@@ -1,8 +1,10 @@
 package com.mirea.practice5.client.schema;
 
+import jakarta.validation.constraints.NotEmpty;
+
 public record ClientCreate(
-        String name,
-        String email,
-        String login,
-        String password) {
+        @NotEmpty String name,
+        @NotEmpty String email,
+        @NotEmpty String login,
+        @NotEmpty String password) {
 }

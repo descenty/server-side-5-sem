@@ -2,6 +2,7 @@ package com.mirea.practice5.client;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,13 +32,13 @@ public class ClientController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Client> getById(@PathVariable Long id) {
+    public ResponseEntity<Client> getById(@PathVariable UUID id) {
         return clientService.getById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("")
     public ResponseEntity<?> create(@Valid @RequestBody ClientCreate clientCreate) {
-        Optional<Long> clientId = clientService.create(clientCreate);
+        Optional<UUID> clientId = clientService.create(clientCreate);
         return clientId.isPresent()
                 ? ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                         .buildAndExpand(clientId.get()).toUri()).build()
@@ -45,14 +46,14 @@ public class ClientController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Client> partialUpdate(@PathVariable Long id, @Valid @RequestBody ClientCreate clientCreate) {
+    public ResponseEntity<Client> partialUpdate(@PathVariable UUID id, @RequestBody ClientCreate clientCreate) {
         return clientService.partialUpdate(id, clientCreate).map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
         return clientService.delete(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }
