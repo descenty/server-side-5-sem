@@ -21,13 +21,13 @@ describe('Book CRUD', () => {
     it('Get All', () => {
         cy.api('/books').then(response => {
             expect(response.status).to.eq(200);
-            assert.isArray(response.body, 'Response Body is an Array')
+            assert.isArray(response.body, 'Response Body is an Array');
         });
     });
     it('Get One', () => {
         cy.api(`/books/${bookId}`).then(response => {
             expect(response.status).to.eq(200);
-            assert.isObject(response.body, 'Response is an Object')
+            assert.isObject(response.body, 'Response is an Object');
         });
     });
     it('Update', () => {
