@@ -1,0 +1,13 @@
+services:
+  x11-bridge:
+    image: jare/x11-bridge
+    restart: always
+    ports:
+      - 10000:10000
+    environment:
+      MODE: tcp
+      XPRA_HTML: "yes"
+      DISPLAY: ":14"
+      XPRA_PASSWORD: qweasdzxc
+    volumes:
+      - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
