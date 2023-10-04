@@ -51,7 +51,6 @@ public class BookController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable UUID id) {
         return bookService.delete(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
