@@ -5,7 +5,7 @@ plugins {
     id 'com.google.cloud.tools.jib' version '3.3.2'
 }
 
-jib.to.image = 'descenty/practice5'
+jib.to.image = 'descenty/practice6'
 
 group = 'com.mirea'
 version = '0.0.1-SNAPSHOT'
@@ -30,8 +30,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
-    implementation 'org.flywaydb:flyway-core:9.22.1'
-    implementation 'com.google.code.gson:gson:2.10.1'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
