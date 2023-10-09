@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CRUDRepository<E, ID> {
-    public List<E> getAll();
+    public List<E> findAll();
 
-    public Optional<E> getById(ID id);
+    public Optional<E> findById(ID id);
 
     public ID create(E entity);
 
-    public boolean deleteById(ID id);
+    public void deleteById(ID id);
 }

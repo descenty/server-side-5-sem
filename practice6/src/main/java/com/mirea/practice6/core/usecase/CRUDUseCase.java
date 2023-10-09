@@ -5,26 +5,30 @@ import java.util.Optional;
 
 import com.mirea.practice6.core.repository.CRUDRepository;
 
-public class CRUDUseCase<E, ID> {
-    protected CRUDRepository<E, ID> crudRepository;
+public class CRUDUseCase<Entity, ID> {
+    protected CRUDRepository<Entity, ID> crudRepository;
 
-    public CRUDUseCase(CRUDRepository<E, ID> crudRepository) {
+    protected CRUDUseCase(CRUDRepository<Entity, ID> crudRepository) {
         this.crudRepository = crudRepository;
     }
 
-    public List<E> getAll() {
-        return crudRepository.getAll();
+    protected List<Entity> getAllEntities() {
+        return crudRepository.findAll();
     }
 
-    public Optional<E> getById(ID id) {
-        return crudRepository.getById(id);
+    protected Optional<Entity> getEntityById(ID id) {
+        return crudRepository.findById(id);
     }
 
-    public ID create(E entity) {
+    protected ID createEntity(Entity entity) {
         return crudRepository.create(entity);
     }
 
-    public boolean deleteById(ID id) {
-        return crudRepository.deleteById(id);
+    protected Boolean deleteEntityById(ID id) {
+        if (crudRepository.findById(id).isPresent()) {
+            crudRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }
