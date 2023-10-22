@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 public class Practice6Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Practice5Application.class, args);
+		SpringApplication.run(Practice6Application.class, args);
 	}
 
 }

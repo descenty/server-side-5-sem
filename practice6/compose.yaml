@@ -1,25 +1,25 @@
 services:
   postgres:
     image: postgres:latest
-    container_name: practice5-postgres
+    container_name: practice6-postgres
     restart: always
     healthcheck:
       test:
-        ["CMD", "pg_isready", "-q", "-d", "practice5", "-U", "${POSTGRES_USER}"]
+        ["CMD", "pg_isready", "-q", "-d", "practice6", "-U", "${POSTGRES_USER}"]
       interval: 5s
       timeout: 5s
       retries: 10
     ports:
       - 5432:5432
     environment:
-      POSTGRES_DB: practice5
+      POSTGRES_DB: practice6
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres-data:/var/lib/postgresql/data
   app:
-    image: descenty/practice5
-    container_name: practice5-app
+    image: descenty/practice6
+    container_name: practice6-app
     restart: always
     ports:
       - 8080:8080

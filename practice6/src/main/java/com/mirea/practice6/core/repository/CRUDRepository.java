@@ -8,7 +8,7 @@ public interface CRUDRepository<E, ID> {
 
     public Optional<E> findById(ID id);
 
-    public ID create(E entity);
+    public E save(E entity);
 
     public void deleteById(ID id);
 }
