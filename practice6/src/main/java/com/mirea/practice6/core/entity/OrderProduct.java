@@ -2,8 +2,8 @@ package com.mirea.practice6.core.entity;
 
 import java.util.UUID;
 
-public class CartProduct extends Entity<UUID> {
-    protected UUID cartId;
+public class OrderProduct extends Entity<UUID> {
+    protected UUID orderId;
     protected UUID productId;
     protected Byte quantity;
 
@@ -15,8 +15,8 @@ public class CartProduct extends Entity<UUID> {
         return quantity;
     }
 
-    public CartProduct(UUID cartId, UUID productId, Byte quantity) {
-        this.cartId = cartId;
+    public OrderProduct(UUID orderId, UUID productId, Byte quantity) {
+        this.orderId = orderId;
         this.productId = productId;
         this.quantity = quantity;
     }

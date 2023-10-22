@@ -1,4 +1,4 @@
-package com.mirea.practice6.infrastructure.schema.out;
+package com.mirea.practice6.core.schema.out;
 
 import java.util.UUID;
 

@@ -1,4 +1,4 @@
-package com.mirea.practice6.core.usecase;
+package com.mirea.practice6.core.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,11 +7,11 @@ import com.mirea.practice6.core.entity.Entity;
 import com.mirea.practice6.core.mapper.EntityMapper;
 import com.mirea.practice6.core.repository.CRUDRepository;
 
-public class CRUDUseCase<E extends Entity<ID>, ID, DTO, CreateDTO, M extends EntityMapper<E, DTO, CreateDTO>> {
+public class CRUDService<E extends Entity<ID>, ID, DTO, CreateDTO, M extends EntityMapper<E, DTO, CreateDTO>> {
     protected CRUDRepository<E, ID> crudRepository;
     protected M mapper;
 
-    protected CRUDUseCase(CRUDRepository<E, ID> crudRepository, M mapper) {
+    protected CRUDService(CRUDRepository<E, ID> crudRepository, M mapper) {
         this.crudRepository = crudRepository;
         this.mapper = mapper;
     }
@@ -24,8 +24,14 @@ public class CRUDUseCase<E extends Entity<ID>, ID, DTO, CreateDTO, M extends Ent
         return crudRepository.findById(id).map(mapper::toDTO);
     }
 
-    public ID create(CreateDTO createDTO) {
-        return crudRepository.save(mapper.toEntity(createDTO)).getId();
+    public Optional<ID> create(CreateDTO createDTO) {
+        return Optional.of(crudRepository.save(mapper.toEntity(createDTO))).map(Entity::getId);
+    }
+
+    public Optional<DTO> update(ID id, CreateDTO createDTO) {
+        return crudRepository.findById(id).map(entity -> mapper.update(entity, createDTO))
+                .map(crudRepository::save)
+                .map(mapper::toDTO);
     }
 
     public Boolean deleteById(ID id) {

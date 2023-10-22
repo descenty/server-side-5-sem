@@ -6,4 +6,8 @@ import java.util.UUID;
 public class Cart extends Entity<UUID> {
     protected UUID userId;
     protected List<CartProduct> products;
+
+    public List<CartProduct> getProducts() {
+        return products;
+    }
 }

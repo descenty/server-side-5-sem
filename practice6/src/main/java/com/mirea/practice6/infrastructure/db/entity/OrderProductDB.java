@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.mirea.practice6.core.entity.CartProduct;
+import com.mirea.practice6.core.entity.OrderProduct;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,21 +19,21 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "cart_product")
-public class CartProductDB extends CartProduct {
+@Table(name = "order_product")
+public class OrderProductDB extends OrderProduct {
     @Id
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "cart_id", insertable = false, updatable = false)
+    @JoinColumn(name = "order_id", insertable = false, updatable = false)
     @JsonInclude
-    private CartDB cart;
+    private OrderDB order;
 
-    @Column(name = "cart_id", nullable = true)
+    @Column(name = "order_id", nullable = true)
     @JsonIgnore
-    private UUID cartId;
+    private UUID orderId;
 
-    public CartProductDB(UUID cartId, UUID productId, Byte quantity) {
-        super(cartId, productId, quantity);
+    public OrderProductDB(UUID orderId, UUID productId, Byte quantity) {
+        super(orderId, productId, quantity);
     }
 }
