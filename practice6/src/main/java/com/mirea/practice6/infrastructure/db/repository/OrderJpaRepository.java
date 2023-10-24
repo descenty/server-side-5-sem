@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.mirea.practice6.core.repository.CRUDRepository;
+import com.mirea.practice6.core.repository.OrderRepository;
 import com.mirea.practice6.infrastructure.db.entity.OrderDB;
 
-public interface OrderRepository extends CRUDRepository<OrderDB, UUID>, JpaRepository<OrderDB, UUID> {
+public interface OrderJpaRepository extends OrderRepository<OrderDB>, JpaRepository<OrderDB, UUID> {
 }

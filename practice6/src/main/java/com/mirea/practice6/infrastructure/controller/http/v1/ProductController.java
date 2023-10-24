@@ -16,13 +16,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.mirea.practice6.core.schema.in.ProductCreateDTO;
 import com.mirea.practice6.core.schema.out.ProductDTO;
-import com.mirea.practice6.infrastructure.service.ProductService;
+import com.mirea.practice6.infrastructure.service.ProductServiceImpl;
 
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/products")
-public record ProductController(ProductService service) {
+public record ProductController(ProductServiceImpl service) {
     @GetMapping("")
     public List<ProductDTO> getAll() {
         return service.getAll();

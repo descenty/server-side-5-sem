@@ -15,13 +15,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.mirea.practice6.core.schema.in.OrderCreateDTO;
 import com.mirea.practice6.core.schema.out.OrderDTO;
-import com.mirea.practice6.infrastructure.service.OrderService;
+import com.mirea.practice6.infrastructure.service.OrderServiceImpl;
 
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/orders")
-public record OrderController(OrderService service) {
+public record OrderController(OrderServiceImpl service) {
     @GetMapping("")
     public List<OrderDTO> getAll() {
         return service.getAll();

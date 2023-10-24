@@ -15,13 +15,14 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.mirea.practice6.core.schema.in.CartCreateDTO;
 import com.mirea.practice6.core.schema.out.CartDTO;
-import com.mirea.practice6.infrastructure.service.CartService;
+import com.mirea.practice6.infrastructure.db.repository.CartJpaRepository;
+import com.mirea.practice6.infrastructure.service.CartServiceImpl;
 
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/carts")
-public record CartController(CartService cartService) {
+public record CartController(CartServiceImpl cartService, CartJpaRepository cartJpaRepository) {
     @GetMapping("")
     public List<CartDTO> getAll() {
         return cartService.getAll();

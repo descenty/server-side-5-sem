@@ -1,10 +1,10 @@
 package com.mirea.practice6.infrastructure.controller.http.v1;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,13 +14,21 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.mirea.practice6.core.exception.OutOfStockException;
 import com.mirea.practice6.core.schema.in.CartProductCreateDTO;
-import com.mirea.practice6.infrastructure.service.CartProductService;
+import com.mirea.practice6.core.schema.out.CartProductDTO;
+import com.mirea.practice6.infrastructure.db.repository.CartProductJpaRepository;
+import com.mirea.practice6.infrastructure.service.CartProductServiceImpl;
 
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/carts")
-public record CartProductController(CartProductService service) {
+public record CartProductController(CartProductServiceImpl service, CartProductJpaRepository repository) {
+
+    @GetMapping("/{cartId}/products")
+    public List<CartProductDTO> getAll(@PathVariable UUID cartId) {
+        return service.findAllByCartId(cartId);
+    }
+
     @PostMapping("/{cartId}/products")
     public ResponseEntity<?> create(@PathVariable UUID cartId, @Valid @RequestBody CartProductCreateDTO createDTO) {
         try {
@@ -33,18 +41,22 @@ public record CartProductController(CartProductService service) {
         }
     }
 
-    @PatchMapping("/{cartId}/products{id}")
-    public ResponseEntity<?> update(@PathVariable UUID cartId, @PathVariable UUID id,
-            @Valid @RequestBody CartProductCreateDTO createDTO) {
-        try {
-            return service.update(id, createDTO).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-        } catch (OutOfStockException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
+    // @PatchMapping("/{cartId}/products{id}")
+    // public ResponseEntity<?> update(@PathVariable UUID cartId, @PathVariable UUID
+    // id,
+    // @Valid @RequestBody CartProductCreateDTO createDTO) {
+    // try {
+    // return service.update(id,
+    // createDTO).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    // } catch (OutOfStockException e) {
+    // return ResponseEntity.badRequest().body(e.getMessage());
+    // }
+    // }
 
-    @DeleteMapping("/{cartId}/products/{id}")
-    public ResponseEntity<?> deleteById(@PathVariable UUID cartId, @PathVariable UUID id) {
-        return service.deleteById(id) ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
-    }
+    // @DeleteMapping("/{cartId}/products/{id}")
+    // public ResponseEntity<?> deleteById(@PathVariable UUID cartId, @PathVariable
+    // UUID id) {
+    // return service.deleteById(id) ? ResponseEntity.ok().build() :
+    // ResponseEntity.notFound().build();
+    // }
 }

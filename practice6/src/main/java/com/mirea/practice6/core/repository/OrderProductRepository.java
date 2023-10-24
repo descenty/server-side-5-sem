@@ -4,5 +4,5 @@ import java.util.UUID;
 
 import com.mirea.practice6.core.entity.OrderProduct;
 
-public interface OrderProductRepository extends CRUDRepository<OrderProduct, UUID> {
+public interface OrderProductRepository<E extends OrderProduct> extends CRUDRepository<E, UUID> {
 }
