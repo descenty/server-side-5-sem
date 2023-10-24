@@ -48,6 +48,6 @@ public record ProductController(ProductServiceImpl service) {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@PathVariable UUID id) {
-        return service.deleteById(id) ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+        return service.deleteById(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }

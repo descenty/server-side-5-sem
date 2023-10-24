@@ -19,9 +19,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@Table(name = "order_product")
 @Getter
 @Setter
-@Table(name = "order_product")
 public class OrderProductDB extends OrderProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -46,8 +46,4 @@ public class OrderProductDB extends OrderProduct {
 
     @Column(nullable = false)
     protected Byte quantity;
-
-    public OrderProductDB(UUID orderId, UUID productId, Byte quantity) {
-        super(orderId, productId, quantity);
-    }
 }

@@ -43,6 +43,6 @@ public record CartController(CartServiceImpl cartService, CartJpaRepository cart
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@PathVariable UUID id) {
-        return cartService.deleteById(id) ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+        return cartService.deleteById(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }

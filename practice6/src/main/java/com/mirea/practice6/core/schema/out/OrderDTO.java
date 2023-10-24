@@ -1,5 +1,7 @@
 package com.mirea.practice6.core.schema.out;
 
-public class OrderDTO {
+import java.util.List;
+import java.util.UUID;
 
+public record OrderDTO (UUID userId, List<OrderProductDTO> products) {
 }

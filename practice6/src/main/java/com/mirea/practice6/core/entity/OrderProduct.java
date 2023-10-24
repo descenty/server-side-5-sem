@@ -20,4 +20,7 @@ public class OrderProduct extends Entity<UUID> {
         this.productId = productId;
         this.quantity = quantity;
     }
+
+    public OrderProduct() {
+    }
 }

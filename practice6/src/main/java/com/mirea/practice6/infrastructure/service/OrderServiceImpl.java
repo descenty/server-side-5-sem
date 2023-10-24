@@ -2,6 +2,7 @@ package com.mirea.practice6.infrastructure.service;
 
 import org.springframework.stereotype.Service;
 
+import com.mirea.practice6.core.service.CartProductService;
 import com.mirea.practice6.core.service.OrderService;
 import com.mirea.practice6.infrastructure.db.entity.CartDB;
 import com.mirea.practice6.infrastructure.db.entity.CartProductDB;
@@ -13,13 +14,16 @@ import com.mirea.practice6.infrastructure.db.repository.OrderJpaRepository;
 import com.mirea.practice6.infrastructure.db.repository.OrderProductJpaRepository;
 import com.mirea.practice6.infrastructure.db.repository.ProductJpaRepository;
 import com.mirea.practice6.infrastructure.mapper.OrderMapperImpl;
+import com.mirea.practice6.infrastructure.mapper.OrderProductMapperImplImpl;
 
 @Service
 public class OrderServiceImpl extends OrderService<OrderDB, CartDB, ProductDB, OrderProductDB, CartProductDB> {
 
     public OrderServiceImpl(OrderJpaRepository orderRepository, OrderMapperImpl mapper,
             CartJpaRepository cartRepository, ProductJpaRepository productRepository,
-            OrderProductJpaRepository orderProductRepository) {
-        super(orderRepository, mapper, cartRepository, productRepository, orderProductRepository);
+            OrderProductJpaRepository orderProductRepository, OrderProductMapperImplImpl orderProductMapper,
+            CartProductService<CartProductDB, ProductDB> cartProductService) {
+        super(orderRepository, mapper, cartRepository, productRepository, orderProductRepository, orderProductMapper,
+                cartProductService);
     }
 }

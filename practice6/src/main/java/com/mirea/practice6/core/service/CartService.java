@@ -10,7 +10,6 @@ import com.mirea.practice6.core.repository.CartRepository;
 import com.mirea.practice6.core.schema.in.CartCreateDTO;
 import com.mirea.practice6.core.schema.out.CartDTO;
 
-@SuppressWarnings("unchecked")
 public class CartService<E extends Cart<CP>, CP extends CartProduct>
         extends CRUDService<E, UUID, CartDTO, CartCreateDTO, CartMapper<E, CP>> {
     public CartService(CartRepository<E, CP> repository, CartMapper<E, CP> mapper) {
@@ -21,6 +20,7 @@ public class CartService<E extends Cart<CP>, CP extends CartProduct>
     public Optional<UUID> create(CartCreateDTO createDTO) {
         if (repository.findById(createDTO.userId()).isPresent())
             return Optional.empty();
-        return Optional.of(repository.save((E) new Cart<CartProduct>(createDTO.userId())).getId());
+        repository.save(mapper.toEntity(createDTO));
+        return Optional.of(createDTO.userId());
     }
 }

@@ -34,7 +34,7 @@ public record OrderController(OrderServiceImpl service) {
 
     @PostMapping("")
     public ResponseEntity<?> create(@Valid @RequestBody OrderCreateDTO orderCreateDTO) {
-        return service.create(orderCreateDTO)
+        return service.createByCartId(orderCreateDTO.userId())
                 .map(id -> ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                         .buildAndExpand(id).toUri()).build())
                 .orElse(ResponseEntity.badRequest().build());
@@ -42,6 +42,6 @@ public record OrderController(OrderServiceImpl service) {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@PathVariable UUID id) {
-        return service.deleteById(id) ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+        return service.deleteById(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }

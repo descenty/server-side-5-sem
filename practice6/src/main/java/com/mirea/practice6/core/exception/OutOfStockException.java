@@ -7,10 +7,12 @@ import com.mirea.practice6.core.entity.Product;
 
 public class OutOfStockException extends RuntimeException {
     public OutOfStockException(Product product) {
-        super("Out of stock: " + product.getName());
+        super(String.format("%s: максимум %s шт.", product.getName(),
+                product.getStockQuantity()));
     }
 
     public OutOfStockException(List<Product> products) {
-        super("Out of stock: " + products.stream().map(Product::getName).collect(Collectors.joining(", ")));
+        super("Нет на складе: "
+                + products.stream().map(Product::getName).collect(Collectors.joining(", ")));
     }
 }

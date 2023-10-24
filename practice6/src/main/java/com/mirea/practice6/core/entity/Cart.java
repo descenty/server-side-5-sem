@@ -14,23 +14,11 @@ public class Cart<CP extends CartProduct> extends Entity<UUID> {
         this.userId = userId;
     }
 
-    public UUID getId() {
-        return userId;
-    }
-
     public UUID getUserId() {
         return userId;
     }
 
-    public void setUserId(UUID userId) {
-        this.userId = userId;
-    }
-
     public List<CP> getProducts() {
         return products;
-    }
-
-    public void setProducts(List<CP> products) {
-        this.products = products;
     }
 }

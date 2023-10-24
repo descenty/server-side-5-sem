@@ -13,9 +13,13 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "cart")
+@Getter
+@Setter
 public class CartDB extends Cart<CartProductDB> {
     @Id
     @Column(name = "user_id", nullable = false)
@@ -24,27 +28,4 @@ public class CartDB extends Cart<CartProductDB> {
     @OneToMany(mappedBy = "cart", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonInclude
     private List<CartProductDB> products;
-
-    public CartDB() {
-    }
-
-    public CartDB(UUID userId) {
-        super(userId);
-    }
-
-    public UUID getUserId() {
-        return userId;
-    }
-
-    public void setUserId(UUID userId) {
-        this.userId = userId;
-    }
-
-    public List<CartProductDB> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<CartProductDB> products) {
-        this.products = products;
-    }
 }

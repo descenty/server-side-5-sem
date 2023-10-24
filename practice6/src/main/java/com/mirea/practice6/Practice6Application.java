@@ -2,9 +2,10 @@ package com.mirea.practice6;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@SpringBootApplication(exclude = { JacksonAutoConfiguration.class }) // Exclude the automatic configuration of JACKSON
+@SpringBootApplication()
+@EnableTransactionManagement
 public class Practice6Application {
 
 	public static void main(String[] args) {
